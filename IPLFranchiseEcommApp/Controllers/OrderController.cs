@@ -14,10 +14,12 @@ namespace API.Controllers
     public class OrderController : ControllerBase
     {
         IMediator _mediator;
+        ILogger<OrderController> _logger;
         IMapper _mapper;
         public OrderController(ILogger<OrderController> logger, IMediator mediator, IMapper mapper)
         {
             _mapper = mapper;
+            _logger = logger;
             _mediator = mediator;
         }
 
@@ -38,6 +40,8 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while creating the order");
+
                 return StatusCode(500, "An error occurred while creating the order");
             }
         }
@@ -55,6 +59,9 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while retrieving ordersList");
+
+
                 return StatusCode(500, "An error occurred while retrieving ordersList");
             }
         }

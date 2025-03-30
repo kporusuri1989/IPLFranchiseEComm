@@ -1,4 +1,5 @@
 ﻿using API;
+using API.Controllers;
 using Application.Models;
 using Application.Queries;
 using AutoMapper;
@@ -18,10 +19,12 @@ namespace IPLFranchiseEcommApp.Controllers
     public class ProductsController :ControllerBase
     {
         IMediator _mediator ;
+        ILogger<ProductsController> _logger;
         IMapper _mapper;
         public ProductsController(ILogger<ProductsController> logger, IMediator mediator, IMapper mapper)
         {
             _mapper = mapper;
+            _logger = logger;
             _mediator = mediator;
         }
 
@@ -33,11 +36,14 @@ namespace IPLFranchiseEcommApp.Controllers
             try
             {
                 var products = await _mediator.Send(new GetProductsQuery());
+                _logger.LogInformation("Product list if fetched");
 
                 return Ok(products);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex,"An error occurred while retrieving products");
+
                 return StatusCode(500, "An error occurred while retrieving products");
             }
         }
@@ -54,6 +60,8 @@ namespace IPLFranchiseEcommApp.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while retrieving products");
+
                 return StatusCode(500, "An error occurred while retrieving products");
             }
         }
@@ -82,6 +90,7 @@ namespace IPLFranchiseEcommApp.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred while retrieving products");
                 return StatusCode(500, "An error occurred while retrieving products");
             }
         }
