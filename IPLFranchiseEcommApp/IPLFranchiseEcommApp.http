@@ -1,0 +1,6 @@
+@IPLFranchiseEcommApp_HostAddress = http://localhost:5180
+
+GET {{IPLFranchiseEcommApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
